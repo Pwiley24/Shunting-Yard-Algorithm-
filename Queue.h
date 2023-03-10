@@ -10,7 +10,7 @@ class Queue{
   Queue();
   void enqueue(Node* value);
   void dequeue();
-  void print();
+  void print(Node* current);
   Node* head;
   Node* tail;
 };

@@ -14,7 +14,7 @@ class Stack{
   void peek();
   void print(Node* current);
   bool checkLower(Node* value);
-  bool checkHigher(Node* value);
+  void enqueueAll(Node* current);
   Node* head;
   Queue* queue;
 };
