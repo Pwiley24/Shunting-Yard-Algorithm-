@@ -11,7 +11,7 @@ class Queue{
   void enqueue(Node* value);
   void dequeue();
   void print(Node* current);
-  Node* head;
+  Node* qhead;
   Node* tail;
 };
 

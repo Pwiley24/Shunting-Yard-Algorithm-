@@ -13,8 +13,9 @@ void Stack::push(Node* value){
   if(head == NULL){ //first data in stack
     head = value;
     head->setPrevious(NULL);
+    head->setNext(NULL);
   }else{
-    cout << head->getValue() << endl;
+    cout << "head: " << head->getValue() << endl;
     /*
     if(checkLower(value) == false){//add to stack
       head->setNext(value);
@@ -30,8 +31,8 @@ void Stack::push(Node* value){
     */
 
     while(checkLower(value) == true){
-      queue->enqueue(head);
-      head = head->getPrevious();
+      cout << "lower" << endl;
+      queue->enqueue(pop());
     }
     head->setNext(value);
     value->setPrevious(head);
@@ -59,9 +60,15 @@ bool Stack::checkLower(Node* value){
 Node* Stack::pop(){
   if(head != NULL){//data in stack
     Node* temp = head;
-    head = head->getPrevious();
-    return temp;
+    if(head->getPrevious() != NULL){
+      head = head->getPrevious();
+      head->setNext(NULL);
+      temp->setNext(NULL);
+      temp->setPrevious(NULL);
+      return temp;
+    }
   }
+  return NULL;
 }
 
 void Stack::peek(){
@@ -84,9 +91,14 @@ void Stack::print(Node* current){
 }
 
 void Stack::enqueueAll(Node* current){
-  cout << current->getPrevious()->getValue() << endl;
-  queue->enqueue(current);
-  if(current->getPrevious() != NULL){
-     enqueueAll(current->getPrevious());
-   }
+  if(current == NULL){
+    current = head;
+  }else{
+    head = current;
+  }
+  cout << current->getValue() << endl;
+  queue->enqueue(pop());
+  if(head != NULL){
+    enqueueAll(head);
+  }
 }

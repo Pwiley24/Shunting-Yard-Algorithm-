@@ -50,9 +50,12 @@ int main(){
     }
   }
 
-
+  cout << "test queu: " << endl;
+  //queue->print(NULL);
+  cout << "Stack: " << endl;
   stack->print(NULL);
   stack->enqueueAll(NULL);
+  cout << "Queue: " << endl;
   queue->print(NULL);
   
 }

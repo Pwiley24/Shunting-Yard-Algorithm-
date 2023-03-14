@@ -4,40 +4,40 @@
 using namespace std;
 
 Queue::Queue(){
-  head = NULL;
+  qhead = NULL;
   tail = NULL;
 }
 
 //adds a node to the back
 void Queue::enqueue(Node* value){
-  if(head == NULL){//first value to queue
-    head = value;
+  cout << "enqueiing: " << value->getValue() << endl;
+  if(qhead == NULL){//first value to queue
+    qhead = value;
+    qhead->setNext(NULL);
+    qhead->setPrevious(NULL);
+    tail = qhead;
   }else{
-    if(tail == NULL){//second value to queue
-      tail = value;
-      head->setNext(value);
-      tail->setPrevious(head);
-    }else{
-      value->setPrevious(tail);
-      tail->setNext(value);
-      tail = value;
-    }
+    value->setPrevious(tail);
+    value->setNext(NULL);
+    tail->setNext(value);
+    tail = value;
   }
 }
 
 //removes the node from the front
 void Queue::dequeue(){
-  if(head != NULL){//if there is a value 
-    head = head->getNext();
+  if(qhead != NULL){//if there is a value 
+    qhead = qhead->getNext();
   }
 }
 
 //print node starting from front to back
 void Queue::print(Node* current){
   if(current == NULL){
-    current = head;
+    current = qhead;
   }
   cout << current->getValue() << " ";
+  dequeue();
   if(current->getNext() != NULL){
     print(current->getNext());
   }else{
