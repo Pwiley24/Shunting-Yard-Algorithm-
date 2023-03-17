@@ -1,10 +1,14 @@
 #include <iostream>
+#include <vector>
 #include <cstring>
 #include "Node.h"
 #include "Stack.h"
 #include "Queue.h"
 
 using namespace std;
+
+void postfixNotation(Stack* stack, Queue* queue);
+
 
 int main(){
   char input[20];
@@ -50,12 +54,22 @@ int main(){
     }
   }
 
-  cout << "test queu: " << endl;
-  //queue->print(NULL);
-  cout << "Stack: " << endl;
-  stack->print(NULL);
-  stack->enqueueAll(NULL);
-  cout << "Queue: " << endl;
-  queue->print(NULL);
+  postfixNotation(stack, queue); 
   
+}
+
+void postfixNotation(Stack* stack, Queue* queue){
+  vector<char> postfix;
+  while(queue->peek() != NULL){
+    postfix.push_back(queue->dequeue()->getValue());
+  }
+  while(stack->peek() != NULL){
+    postfix.push_back(stack->pop()->getValue());
+  }
+
+  vector<char>::iterator ptr;
+  for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
+    cout << *ptr;
+  }
+
 }

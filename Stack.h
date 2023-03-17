@@ -11,10 +11,8 @@ class Stack{
   Stack(Queue* q);
   void push(Node* value);
   Node* pop();
-  void peek();
-  void print(Node* current);
+  Node* peek();
   bool checkLower(Node* value);
-  void enqueueAll(Node* current);
   Node* head;
   Queue* queue;
 };

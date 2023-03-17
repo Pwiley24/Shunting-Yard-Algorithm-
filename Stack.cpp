@@ -56,7 +56,8 @@ bool Stack::checkLower(Node* value){
 }
 
 
-//Remove and return a node from the top of the list
+//Remove and return a node from the top of the list. 
+//head becomes the next node
 Node* Stack::pop(){
   if(head != NULL){//data in stack
     Node* temp = head;
@@ -67,38 +68,16 @@ Node* Stack::pop(){
       temp->setPrevious(NULL);
       return temp;
     }
+    head = NULL;
+    return temp;
   }
   return NULL;
 }
 
-void Stack::peek(){
-  cout << head->getValue() << endl;
+Node* Stack::peek(){
+  return head;
 }
 
-void Stack::print(Node* current){
-  if(current == NULL){
-    current = head;
-    cout << head->getValue() << " ";
-  }else{
-    cout << current->getValue() << " ";
-  }
-  if(current->getPrevious() != NULL){
-    print(current->getPrevious());
-  }else{
-    cout << " " << endl;
-  }
   
-}
 
-void Stack::enqueueAll(Node* current){
-  if(current == NULL){
-    current = head;
-  }else{
-    head = current;
-  }
-  cout << current->getValue() << endl;
-  queue->enqueue(pop());
-  if(head != NULL){
-    enqueueAll(head);
-  }
-}
+ 

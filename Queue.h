@@ -9,8 +9,8 @@ class Queue{
  public:
   Queue();
   void enqueue(Node* value);
-  void dequeue();
-  void print(Node* current);
+  Node* dequeue();
+  Node* peek();
   Node* qhead;
   Node* tail;
 };
