@@ -12,6 +12,7 @@ class Stack{
   void push(Node* value);
   Node* pop();
   Node* peek();
+  bool checkParenth(Node* value);
   bool checkLower(Node* value);
   Node* head;
   Queue* queue;

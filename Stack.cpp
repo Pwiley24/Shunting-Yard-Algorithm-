@@ -17,7 +17,8 @@ void Stack::push(Node* value){
   }else{
     cout << "head: " << head->getValue() << endl;
     /*
-    if(checkLower(value) == false){//add to stack
+    if(checkLower(value) == false &&
+       checkParenth(value) == false){//add to stack
       head->setNext(value);
       value->setPrevious(head);
       head = value;
@@ -27,6 +28,9 @@ void Stack::push(Node* value){
       pop();
       queue->enqueue(head);
       head = value;
+    }else if(checkParenth(value) == true){
+      cout << "remove parenth" << endl;
+       
     }
     */
 
@@ -34,10 +38,33 @@ void Stack::push(Node* value){
       cout << "lower" << endl;
       queue->enqueue(pop());
     }
-    head->setNext(value);
-    value->setPrevious(head);
-    head = value;
+
+    if(checkParenth(value) == true){
+      while(value->getValue() != 40){
+       if(value->getValue() == 41){
+         value = head;
+       }else{
+         queue->enqueue(pop());
+         head->setNext(value);
+         value->setPrevious(head);
+         value = head;
+       }
+      }
+    }else{
+      head->setNext(value);
+      value->setPrevious(head);
+      head = value;
+   }
   }
+}
+
+//checks to see if a left () was added
+bool Stack::checkParenth(Node* value){
+  if(value->getValue() == 41){//left parenthesis detected
+    //enqueue until right parenthesis detected
+    return true; 
+  }
+  return false;
 }
 
 //checks to see if added value is lower precedence
@@ -47,7 +74,6 @@ bool Stack::checkLower(Node* value){
      head->getValue() == 94){
     if(value->getValue() == 43 ||
       value->getValue() == 45 ||
-      value->getValue() == 40 ||
       value->getValue() == 41){ //operator is lower precedence than head
       return true;
     }

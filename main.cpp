@@ -7,8 +7,8 @@
 
 using namespace std;
 
-void postfixNotation(Stack* stack, Queue* queue);
-
+void postfixNotation(Stack* stack, Queue* queue, vector<char> &postfix);
+void createTree(Stack* &tree, vector<char> postfix);
 
 int main(){
   char input[20];
@@ -17,7 +17,8 @@ int main(){
   //Stack List:
   Queue* queue = new Queue();
   Stack* stack = new Stack(queue);
-
+  Stack* tree = new Stack(NULL); 
+  vector<char> postfix;
 
   //Queue List:
   Node* tail;
@@ -54,12 +55,22 @@ int main(){
     }
   }
 
-  postfixNotation(stack, queue); 
+
+  postfixNotation(stack, queue, postfix);
+  createTree(tree, postfix);   
   
 }
 
-void postfixNotation(Stack* stack, Queue* queue){
-  vector<char> postfix;
+void createTree(Stack* &tree, vector<char> postfix){
+  vector<char>::iterator ptr;
+  for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
+    Node* newNode = new Node();
+    newNode->setValue(*ptr);
+    
+  }
+}
+
+void postfixNotation(Stack* stack, Queue* queue, vector<char> &postfix){
   while(queue->peek() != NULL){
     postfix.push_back(queue->dequeue()->getValue());
   }
@@ -71,5 +82,6 @@ void postfixNotation(Stack* stack, Queue* queue){
   for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
     cout << *ptr;
   }
+  cout << " " << endl;
 
 }
