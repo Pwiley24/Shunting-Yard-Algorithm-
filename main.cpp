@@ -4,26 +4,25 @@
 #include "Node.h"
 #include "Stack.h"
 #include "Queue.h"
+#include "BinaryTree.h"
 
 using namespace std;
 
 void postfixNotation(Stack* stack, Queue* queue, vector<char> &postfix);
-void createTreeList(vector<char> &tree, vector<char> postfix);
-void printInfixNotation(vector<char> tree);
+void createTreeList(Node* &root, vector<char> postfix, BinaryTree* &tree);
+void printInfixNotation(Node* root);
+void printPrefixNotation(vector<char> postfix, vector<char> &prefix);
 
 int main(){
   char input[20];
   int length = 20;
   
-  //Stack List:
   Queue* queue = new Queue();
   Stack* stack = new Stack(queue);
-  vector<char> tree; 
+  BinaryTree* tree = new BinaryTree();
   vector<char> postfix;
-
-  //Queue List:
-  Node* tail;
-  Node* headQ;
+  vector<char> prefix;
+  Node* root = NULL;
 
   cout << "enter expression" << endl;
   cin.get(input, 20);
@@ -58,55 +57,78 @@ int main(){
 
 
   postfixNotation(stack, queue, postfix);
-  createTreeList(tree, postfix);   
-  printInfixNotation(tree);
-  
+  cout << " " << endl;
+  createTreeList(root, postfix, tree);   
+  printInfixNotation(root);
+  cout << " " << endl;
+  printPrefixNotation(postfix, prefix);
+  cout << " " << endl;
 }
 
-void createTreeList(vector<char> &tree, vector<char> postfix){
+
+void createTreeList(Node* &root, vector<char> postfix, BinaryTree* &tree){  
   vector<char>::iterator ptr;
-  for(ptr = postfix.end(); ptr >= postfix.begin(); ptr--){//iterate backward
-    cout << *ptr << endl;
-    tree.push_back(*ptr); 
+  for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
+    Node* newNode = new Node();
+    newNode->setValue(*ptr);
+    cout << newNode->getValue() << endl;
+    if(newNode->getValue() >= 48 &&
+       newNode->getValue() <= 57){//value is a number
+      tree->push(newNode);
+    }else{//an operator
+      if(root == NULL){
+	root = newNode;
+	root->setRight(tree->peek());
+	tree->pop();
+	root->setLeft(tree->peek());
+	tree->pop();
+      }else{
+	newNode->setRight(tree->peek());
+	tree->pop();
+	newNode->setLeft(root);
+	root = newNode;
+      }
+    }
   }
+      
 }
+
+
 
 //print left child, parent, right child for all
-void printInfixNotation(vector<char> tree){
-  vector<char> infixNotation;
-  char child2 = NULL;
-  char optor = NULL;
-  char child1 = NULL;
-  vector<char>::iterator ptr;
-  for(ptr = tree.end(); ptr > tree.begin(); ptr--){
-    cout << "now " << *ptr << endl;
-    if(*ptr >= 48 &&
-       *ptr <= 57 &&
-       child1 == NULL){//start of new operation
-     cout << "first child" << endl;
-      infixNotation.push_back('(');
-      infixNotation.push_back(*ptr);
-      child1 = *ptr;
-    }else if(*ptr >= 48 &&
-             *ptr <= 57 &&
-             child2 == NULL){//other child value going through
-      cout << "child2 " << *ptr << endl;
-      child2 = *ptr;
-    }else if(optor == NULL){//parent value going through
-      optor = *ptr;
-      cout << "optor " << optor << endl;
-      infixNotation.push_back(optor);
-      infixNotation.push_back(child2);//operand
-      infixNotation.push_back(')');
-      child1 = NULL;
-      optor = NULL;
-      child2 = NULL;
-    }   
+void printInfixNotation(Node* root){
+  if(root != NULL){
+    if(root->getValue() == 43 ||
+       root->getValue() == 42 ||
+       root->getValue() == 47 ||
+       root->getValue() == 94 ||
+       root->getValue() == 45){//root is an operator
+      cout << '(';
+    }
+    if(root->getLeft() != NULL){
+      printInfixNotation(root->getLeft());
+    }
+    cout << root->getValue();
+    if(root->getRight() != NULL){
+      printInfixNotation(root->getRight());
+    }
+    if(root->getValue() == 43 ||
+       root->getValue() == 42 ||
+       root->getValue() == 47 ||
+       root->getValue() == 94 ||
+       root->getValue() == 45){//root is an operator
+      cout << ')';
+    }
   }
-  for(ptr = infixNotation.begin(); ptr < infixNotation.end(); ptr++){
+}
+
+void printPrefixNotation(vector<char> postfix, vector<char> &prefix){
+  vector<char>::iterator ptr;
+
+  for(ptr = postfix.end(); ptr >= postfix.begin(); ptr--){
+    prefix.push_back(*ptr);
     cout << *ptr;
   }
-  cout << " infix " << endl;
 }
 
 
@@ -127,6 +149,4 @@ void postfixNotation(Stack* stack, Queue* queue, vector<char> &postfix){
   for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
     cout << *ptr;
   }
-  cout << " " << endl;
-
 }
