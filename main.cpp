@@ -85,10 +85,18 @@ int main(){
   }
 }
 
+//NEED HELP FIGURING OUT POSTFIX
+void printPostfixNotation(Node* current, Node* root){
+//print when current->getLeft == null
+  if(current!= NULL){
+    if(current->getLeft() != NULL){//still left value
+      printPostfixNotation(current->getLeft(), root);
+    }
+    cout << current->getValue(); 
+    printPostfixNotation(root, root);
+    
 
-void printPostfixNotation(Node* current){
-//print current if not null
-//if there is a left print that
+  }
 }
 
 void createTreeList(Node* &root, vector<char> postfix, BinaryTree* &tree){  
