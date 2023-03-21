@@ -9,7 +9,6 @@ BinaryTree::BinaryTree(){
 
 //add to stack
 void BinaryTree::push(Node* value){
-  cout << "adding " << value->getValue() << endl;
   if(head != NULL){
     head->setNext(value);
     value->setPrevious(head);
@@ -28,7 +27,6 @@ void BinaryTree::pop(){
       head->setNext(NULL);
       temp->setNext(NULL);
       temp->setPrevious(NULL);
-      cout << "previosu : " << head->getValue() << endl;
     }else{
       head = NULL;
     }

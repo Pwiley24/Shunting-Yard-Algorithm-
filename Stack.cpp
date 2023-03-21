@@ -15,30 +15,9 @@ void Stack::push(Node* value){
     head->setPrevious(NULL);
     head->setNext(NULL);
   }else{
-    cout << "head: " << head->getValue() << endl;
-    /*
-    if(checkLower(value) == false &&
-       checkParenth(value) == false){//add to stack
-      head->setNext(value);
-      value->setPrevious(head);
-      head = value;
-    }else if(checkLower(value) == true){//remove current head and make new head
-      cout << "lower remove " << value->getValue() << endl;
-      value->setPrevious(head->getPrevious());
-      pop();
-      queue->enqueue(head);
-      head = value;
-    }else if(checkParenth(value) == true){
-      cout << "remove parenth" << endl;
-       
-    }
-    */
-
     while(checkLower(value) == true){
-      cout << "lower" << endl;
       queue->enqueue(pop());
     }
-
     if(checkParenth(value) == true){
       while(value->getValue() != 40){
        if(value->getValue() == 41){
@@ -70,11 +49,16 @@ bool Stack::checkParenth(Node* value){
 //checks to see if added value is lower precedence
 bool Stack::checkLower(Node* value){
   if(head->getValue() == 42 ||
-     head->getValue() == 47 ||
-     head->getValue() == 94){
+     head->getValue() == 47){
     if(value->getValue() == 43 ||
-      value->getValue() == 45 ||
-      value->getValue() == 41){ //operator is lower precedence than head
+      value->getValue() == 45){ //operator is lower precedence than head
+      return true;
+    }
+  }else if(head->getValue() == 94){//is power
+    if(value->getValue() == 42 ||
+       value->getValue() == 47 ||
+       value->getValue() == 43 ||
+       value->getValue() == 45){
       return true;
     }
   }
@@ -104,6 +88,12 @@ Node* Stack::peek(){
   return head;
 }
 
-  
+void Stack:: clear(){
+  if(head != NULL){
+    head->setNext(NULL);
+    head->setPrevious(NULL);
+    head = NULL;
+  }
+}
 
  

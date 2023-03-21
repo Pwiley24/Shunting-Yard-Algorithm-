@@ -10,6 +10,7 @@ class Stack{
  public:
   Stack(Queue* q);
   void push(Node* value);
+  void clear();
   Node* pop();
   Node* peek();
   bool checkParenth(Node* value);

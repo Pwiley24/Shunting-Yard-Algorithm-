@@ -20,12 +20,13 @@ int main(){
   bool playing = true;
   Queue* queue = new Queue();
   Stack* stack = new Stack(queue);
-  BinaryTree* tree = new BinaryTree();
-  vector<char> postfix;
-  Node* root = NULL;
   
   while(playing){
     bool sameExpression = true;
+    vector<char> postfix;
+    Node* root = NULL;
+    BinaryTree* tree = new BinaryTree();
+ 
     cout << "enter expression or QUIT" << endl;
     cin.get(input, 20);
     cin.ignore(20, '\n');
@@ -42,7 +43,6 @@ int main(){
     
         if(input[i] >= 48 &&
           input[i] <= 57){//add to queue
-          cout << "to queue " << input[i] << endl;
           queue->enqueue(newNode);
         }else if(input[i] == 40 ||
 	         input[i] == 41 ||
@@ -56,28 +56,37 @@ int main(){
           cout << "nothing" << endl;
         }
       }
-      postfixNotation(stack, queue, postfix);
-      createTreeList(root, postfix, tree);;
       while(sameExpression){
-        cout << "View Notation (INFIX, PREFIX, POSTFIX)" << endl;
+	postfixNotation(stack, queue, postfix);
+	vector<char>::iterator ptr;
+	
+	for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
+	  cout << *ptr;
+	}
+	cout << " " << endl;
+	createTreeList(root, postfix, tree);;
+
+        cout << "View Notation (INFIX, PREFIX, POSTFIX, NEW)" << endl;
         cin.get(input, 20);
         cin.ignore(20, '\n');
     
         if(strcmp(input, "INFIX") == 0){//print infix
-           cout << "Infix: ";
-           printInfixNotation(root);
-           cout << " " << endl;
+          cout << "Infix: ";
+          printInfixNotation(root);
+          cout << " " << endl;
         }else if(strcmp(input, "PREFIX") == 0){//print prefix
-           cout << "Prefix: ";
-           printPrefixNotation(root);
-           cout << " " << endl;
+          cout << "Prefix: ";
+          printPrefixNotation(root);
+          cout << " " << endl;
         }else if(strcmp(input, "POSTFIX") == 0){
-           cout << "Postfix: ";
-           printPostfixNotation(root);
-           cout << " " << endl;
+          cout << "Postfix: ";
+          printPostfixNotation(root);
+          cout << " " << endl;
         }else if(strcmp(input, "NEW") == 0){//ask for new expression
-           sameExpression = false;
-        }
+          queue->clear();
+          stack->clear();
+	  sameExpression = false;
+	}
       }
     }else{//quit playing
       playing = false;
@@ -85,17 +94,16 @@ int main(){
   }
 }
 
-//NEED HELP FIGURING OUT POSTFIX
-void printPostfixNotation(Node* current, Node* root){
-//print when current->getLeft == null
+//Prints the shunting yard algorithm
+void printPostfixNotation(Node* current){
   if(current!= NULL){
     if(current->getLeft() != NULL){//still left value
-      printPostfixNotation(current->getLeft(), root);
+      printPostfixNotation(current->getLeft());
     }
-    cout << current->getValue(); 
-    printPostfixNotation(root, root);
-    
-
+    if(current->getRight() != NULL){//still right value
+      printPostfixNotation(current->getRight());
+    }
+    cout << current->getValue();
   }
 }
 
@@ -104,7 +112,6 @@ void createTreeList(Node* &root, vector<char> postfix, BinaryTree* &tree){
   for(ptr = postfix.begin(); ptr < postfix.end(); ptr++){
     Node* newNode = new Node();
     newNode->setValue(*ptr);
-    cout << newNode->getValue() << endl;
     if(newNode->getValue() >= 48 &&
        newNode->getValue() <= 57){//value is a number
       tree->push(newNode);

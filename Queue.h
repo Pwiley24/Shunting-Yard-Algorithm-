@@ -10,6 +10,7 @@ class Queue{
   Queue();
   void enqueue(Node* value);
   Node* dequeue();
+  void clear();
   Node* peek();
   Node* qhead;
   Node* tail;
