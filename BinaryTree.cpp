@@ -28,7 +28,7 @@ void BinaryTree::pop(){
       head->setNext(NULL);
       temp->setNext(NULL);
       temp->setPrevious(NULL);
-      cout << "previosu : " << head->getPrevious()->getValue() << endl;
+      cout << "previosu : " << head->getValue() << endl;
     }else{
       head = NULL;
     }
