@@ -1,3 +1,9 @@
+/*
+ * This program takes in a mathmatical equation and converts it to
+ * its prefix, postfix, or infix notation
+ * Author: Paige Wiley
+ * Date: 03-18-23
+*/
 #include <iostream>
 #include <vector>
 #include <cstring>
